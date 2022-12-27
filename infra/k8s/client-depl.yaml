@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-posts-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client-posts
+  template:
+    metadata:
+      labels:
+        app: client-posts
+    spec:
+      containers:
+        - name: client-posts
+          image: filipeqs/client-posts
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-posts-srv
+spec:
+  selector:
+    app: client-posts
+  type: ClusterIP
+  ports:
+    - name: client-posts
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
